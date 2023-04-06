@@ -9,6 +9,35 @@ This repository contains a personal collection of useful JavaScript functions th
 
 - Recursive Parser Functions: These functions can be used to parse and traverse complex data structures such as JSON objects and arrays recursively, allowing for easier manipulation and extraction of data.
 
+```javascript
+function parseJSON(json) {
+	const result = {};
+
+	function recurse(obj, currentPath = '') {
+		for (let prop in obj) {
+			if (typeof obj[prop] === 'object') {
+				if (Array.isArray(obj[prop])) {
+					// Handle arrays
+					for (let i = 0; i < obj[prop].length; i++) {
+						recurse(obj[prop][i], `${currentPath}${prop}[${i}]`);
+					}
+				} else {
+					// Handle nested objects
+					recurse(obj[prop], `${currentPath}${prop}.`);
+				}
+			} else {
+				// Add value to result object
+				result[`${currentPath}${prop}`] = obj[prop];
+			}
+		}
+	}
+
+	recurse(json);
+
+	return result;
+}
+```
+
 
 Other functions will be added as they are developed.
 
